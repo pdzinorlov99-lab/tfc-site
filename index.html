@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TFC Rankings</title>
+
+    <style>
+        :root {
+            --black: #0b0b0b;
+            --dark: #15110d;
+            --brown: #2a170b;
+            --gold: #d99a16;
+            --gold-light: #f2bf45;
+            --orange: #d96b0b;
+            --cream: #f7f1e5;
+            --text: #17130f;
+            --muted: #756a5d;
+            --border: #d8c5a1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--cream);
+            color: var(--text);
+        }
+
+        header {
+            background: var(--black);
+            border-bottom: 2px solid var(--gold);
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: var(--gold-light);
+            text-shadow: 0 0 14px rgba(217, 154, 22, .25);
+        }
+
+        .org {
+            font-size: 10px;
+            color: #c7a96a;
+            letter-spacing: 2px;
+            margin-top: 3px;
+        }
+
+        .hero {
+            background:
+                radial-gradient(circle at 15% 80%, rgba(217, 107, 11, .28), transparent 32%),
+                radial-gradient(circle at 85% 15%, rgba(217, 154, 22, .18), transparent 30%),
+                linear-gradient(135deg, #080808 0%, #17100a 55%, #251307 100%);
+            color: white;
+            padding: 80px 7%;
+            border-bottom: 1px solid #5c3b17;
+        }
+
+        .hero small {
+            color: var(--gold-light);
+            font-size: 12px;
+            letter-spacing: 4px;
+            font-weight: bold;
+        }
+
+        .hero h1 {
+            font-size: 55px;
+            margin-top: 12px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .hero p {
+            color: #cfc3b2;
+            margin-top: 12px;
+            font-size: 15px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .division {
+            background: #fffdf9;
+            margin-bottom: 35px;
+            border: 1px solid var(--border);
+            box-shadow: 0 8px 25px rgba(50, 30, 10, .08);
+            overflow: hidden;
+        }
+
+        .division-title {
+            background: linear-gradient(90deg, var(--black), var(--brown));
+            color: var(--gold-light);
+            padding: 20px 25px;
+            font-size: 21px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--gold);
+        }
+
+        .champion {
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(90deg, #fff8e9, #fffdf9);
+        }
+
+        .champion-rank {
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--gold);
+            width: 55px;
+        }
+
+        .champion-info {
+            flex: 1;
+        }
+
+        .champion-name {
+            font-size: 21px;
+            font-weight: 900;
+        }
+
+        .champion-name a,
+        .fighter-name a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .champion-name a:hover,
+        .fighter-name a:hover {
+            color: var(--orange);
+            text-decoration: underline;
+        }
+
+        .record {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .champion-label {
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: var(--gold);
+        }
+
+        .fighter {
+            display: flex;
+            align-items: center;
+            padding: 19px 25px;
+            border-bottom: 1px solid #eee3d2;
+            transition: .2s;
+        }
+
+        .fighter:last-child {
+            border-bottom: none;
+        }
+
+        .fighter:hover {
+            background: #fff8eb;
+            border-left: 4px solid var(--gold);
+            padding-left: 21px;
+        }
+
+        .rank {
+            width: 55px;
+            font-size: 17px;
+            font-weight: 900;
+            color: #4d4032;
+        }
+
+        .fighter-info {
+            flex: 1;
+        }
+
+        .fighter-name {
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        footer {
+            background: var(--black);
+            color: #a9987e;
+            text-align: center;
+            padding: 30px;
+            margin-top: 70px;
+            font-size: 12px;
+            border-top: 2px solid var(--gold);
+        }
+
+        @media (max-width: 700px) {
+            header {
+                padding: 18px 5%;
+            }
+
+            .hero {
+                padding: 55px 5%;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .container {
+                padding: 0 10px;
+            }
+
+            .champion,
+            .fighter {
+                padding: 17px;
+            }
+
+            .division-title {
+                padding: 17px;
+            }
+
+            .champion-name {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div>
+        <div class="logo">TFC</div>
+        <div class="org">WORLD FIGHTING CONFEDERATION</div>
+    </div>
+</header>
+
+<section class="hero">
+    <small>WORLD FIGHTING CONFEDERATION</small>
+    <h1>TFC RANKINGS</h1>
+    <p>Classificação oficial dos atletas da TFC</p>
+</section>
+
+<main class="container">
+
+    <div id="rankings"></div>
+
+</main>
+
+<footer>
+    © 2026 TFC — World Fighting Confederation
+</footer>
+
+
+<script src="dados.js"></script>
+
+<script>
+    const rankings = document.getElementById("rankings");
+
+    function criarAtleta(item, p4p = false, index = 0) {
+        if (p4p) {
+            const [nome, categoria, cartel, ko] = item;
+            const rank = index + 1;
+
+            if (rank === 1) {
+                return `
+                    <div class="champion">
+                        <div class="champion-rank">#1</div>
+                        <div class="champion-info">
+                            <div class="champion-name">${nome}</div>
+                            <div class="record">${categoria} • ${cartel} • ${ko}</div>
+                        </div>
+                        <div class="champion-label">P4P</div>
+                    </div>`;
+            }
+
+            return `
+                <div class="fighter">
+                    <div class="rank">#${rank}</div>
+                    <div class="fighter-info">
+                        <div class="fighter-name">${nome}</div>
+                        <div class="record">${categoria} • ${cartel} • ${ko}</div>
+                    </div>
+                </div>`;
+        }
+
+        const [rank, nome, cartel, ko] = item;
+
+        if (rank === "C") {
+            return `
+                <div class="champion">
+                    <div class="champion-rank">#C</div>
+                    <div class="champion-info">
+                        <div class="champion-name">${nome}</div>
+                        <div class="record">${cartel} • ${ko}</div>
+                    </div>
+                    <div class="champion-label">CAMPEÃO</div>
+                </div>`;
+        }
+
+        return `
+            <div class="fighter">
+                <div class="rank">#${rank}</div>
+                <div class="fighter-info">
+                    <div class="fighter-name">${nome}</div>
+                    <div class="record">${cartel} • ${ko}</div>
+                </div>
+            </div>`;
+    }
+
+    function criarDivisao(titulo, lista, p4p = false) {
+        let conteudo = `
+            <section class="division">
+                <div class="division-title">${titulo}</div>
+        `;
+
+        lista.forEach((item, index) => {
+            conteudo += criarAtleta(item, p4p, index);
+        });
+
+        conteudo += `</section>`;
+        rankings.innerHTML += conteudo;
+    }
+
+    criarDivisao("TFC POUND FOR POUND", TFC_DATA.p4p, true);
+    criarDivisao("PESO LEVE", TFC_DATA["Peso Leve"]);
+    criarDivisao("PESO MEIO-MÉDIO", TFC_DATA["Peso Meio-Médio"]);
+    criarDivisao("PESO MÉDIO", TFC_DATA["Peso Médio"]);
+    criarDivisao("PESO PESADO", TFC_DATA["Peso Pesado"]);
+</script>
+
+</body>
+</html>
