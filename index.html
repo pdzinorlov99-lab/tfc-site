@@ -87,9 +87,60 @@
 
         .container {
             max-width: 1100px;
-            margin: 50px auto;
+            margin: 40px auto;
             padding: 0 20px;
         }
+
+        /* =========================
+           BOTÕES DAS CATEGORIAS
+        ========================= */
+
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .category-tabs::-webkit-scrollbar-thumb {
+            background: var(--gold);
+            border-radius: 10px;
+        }
+
+        .category-btn {
+            background: #111111;
+            color: #aaa;
+            border: 1px solid #292929;
+            border-radius: 9px;
+            padding: 14px 25px;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: .5px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: .2s;
+        }
+
+        .category-btn:hover {
+            color: white;
+            border-color: var(--gold);
+        }
+
+        .category-btn.active {
+            background: var(--gold);
+            color: #111;
+            border-color: var(--gold);
+            box-shadow: 0 4px 15px rgba(217, 154, 22, .25);
+        }
+
+        /* =========================
+           RANKING
+        ========================= */
 
         .division {
             background: #fffdf9;
@@ -204,6 +255,7 @@
         }
 
         @media (max-width: 700px) {
+
             header {
                 padding: 18px 5%;
             }
@@ -218,6 +270,17 @@
 
             .container {
                 padding: 0 10px;
+                margin-top: 30px;
+            }
+
+            .category-tabs {
+                gap: 7px;
+                margin-bottom: 20px;
+            }
+
+            .category-btn {
+                padding: 12px 18px;
+                font-size: 12px;
             }
 
             .champion,
@@ -253,6 +316,32 @@
 
 <main class="container">
 
+    <!-- BOTÕES DAS CATEGORIAS -->
+
+    <div class="category-tabs">
+
+        <button class="category-btn active" onclick="mostrarRanking('p4p', this)">
+            P4P
+        </button>
+
+        <button class="category-btn" onclick="mostrarRanking('Peso Pesado', this)">
+            PESADO
+        </button>
+
+        <button class="category-btn" onclick="mostrarRanking('Peso Médio', this)">
+            MÉDIO
+        </button>
+
+        <button class="category-btn" onclick="mostrarRanking('Peso Meio-Médio', this)">
+            MEIO-MÉDIO
+        </button>
+
+        <button class="category-btn" onclick="mostrarRanking('Peso Leve', this)">
+            LEVE
+        </button>
+
+    </div>
+
     <div id="rankings"></div>
 
 </main>
@@ -265,78 +354,217 @@
 <script src="dados.js"></script>
 
 <script>
+
     const rankings = document.getElementById("rankings");
 
+
     function criarAtleta(item, p4p = false, index = 0) {
+
         if (p4p) {
+
             const [nome, categoria, cartel, ko] = item;
             const rank = index + 1;
 
             if (rank === 1) {
+
                 return `
                     <div class="champion">
-                        <div class="champion-rank">#1</div>
-                        <div class="champion-info">
-                            <div class="champion-name">${nome}</div>
-                            <div class="record">${categoria} • ${cartel} • ${ko}</div>
+
+                        <div class="champion-rank">
+                            #1
                         </div>
-                        <div class="champion-label">P4P</div>
-                    </div>`;
+
+                        <div class="champion-info">
+
+                            <div class="champion-name">
+                                ${nome}
+                            </div>
+
+                            <div class="record">
+                                ${categoria} • ${cartel} • ${ko}
+                            </div>
+
+                        </div>
+
+                        <div class="champion-label">
+                            P4P
+                        </div>
+
+                    </div>
+                `;
             }
+
 
             return `
                 <div class="fighter">
-                    <div class="rank">#${rank}</div>
-                    <div class="fighter-info">
-                        <div class="fighter-name">${nome}</div>
-                        <div class="record">${categoria} • ${cartel} • ${ko}</div>
+
+                    <div class="rank">
+                        #${rank}
                     </div>
-                </div>`;
+
+                    <div class="fighter-info">
+
+                        <div class="fighter-name">
+                            ${nome}
+                        </div>
+
+                        <div class="record">
+                            ${categoria} • ${cartel} • ${ko}
+                        </div>
+
+                    </div>
+
+                </div>
+            `;
         }
+
 
         const [rank, nome, cartel, ko] = item;
 
+
         if (rank === "C") {
+
             return `
                 <div class="champion">
-                    <div class="champion-rank">#C</div>
-                    <div class="champion-info">
-                        <div class="champion-name">${nome}</div>
-                        <div class="record">${cartel} • ${ko}</div>
+
+                    <div class="champion-rank">
+                        #C
                     </div>
-                    <div class="champion-label">CAMPEÃO</div>
-                </div>`;
+
+                    <div class="champion-info">
+
+                        <div class="champion-name">
+                            ${nome}
+                        </div>
+
+                        <div class="record">
+                            ${cartel} • ${ko}
+                        </div>
+
+                    </div>
+
+                    <div class="champion-label">
+                        CAMPEÃO
+                    </div>
+
+                </div>
+            `;
         }
+
 
         return `
             <div class="fighter">
-                <div class="rank">#${rank}</div>
-                <div class="fighter-info">
-                    <div class="fighter-name">${nome}</div>
-                    <div class="record">${cartel} • ${ko}</div>
+
+                <div class="rank">
+                    #${rank}
                 </div>
-            </div>`;
+
+                <div class="fighter-info">
+
+                    <div class="fighter-name">
+                        ${nome}
+                    </div>
+
+                    <div class="record">
+                        ${cartel} • ${ko}
+                    </div>
+
+                </div>
+
+            </div>
+        `;
     }
 
-    function criarDivisao(titulo, lista, p4p = false) {
-        let conteudo = `
-            <section class="division">
-                <div class="division-title">${titulo}</div>
-        `;
 
-        lista.forEach((item, index) => {
-            conteudo += criarAtleta(item, p4p, index);
+    function mostrarRanking(categoria, botao) {
+
+        /* muda botão ativo */
+
+        document.querySelectorAll(".category-btn").forEach(btn => {
+            btn.classList.remove("active");
         });
 
-        conteudo += `</section>`;
-        rankings.innerHTML += conteudo;
+        botao.classList.add("active");
+
+
+        /* limpa ranking atual */
+
+        rankings.innerHTML = "";
+
+
+        /* P4P */
+
+        if (categoria === "p4p") {
+
+            criarDivisao(
+                "TFC POUND FOR POUND",
+                TFC_DATA.p4p,
+                true
+            );
+
+            return;
+        }
+
+
+        /* ranking normal */
+
+        const nomes = {
+            "Peso Pesado": "PESO PESADO",
+            "Peso Médio": "PESO MÉDIO",
+            "Peso Meio-Médio": "PESO MEIO-MÉDIO",
+            "Peso Leve": "PESO LEVE"
+        };
+
+
+        criarDivisao(
+            nomes[categoria],
+            TFC_DATA[categoria]
+        );
     }
 
-    criarDivisao("TFC POUND FOR POUND", TFC_DATA.p4p, true);
-    criarDivisao("PESO LEVE", TFC_DATA["Peso Leve"]);
-    criarDivisao("PESO MEIO-MÉDIO", TFC_DATA["Peso Meio-Médio"]);
-    criarDivisao("PESO MÉDIO", TFC_DATA["Peso Médio"]);
-    criarDivisao("PESO PESADO", TFC_DATA["Peso Pesado"]);
+
+    function criarDivisao(titulo, lista, p4p = false) {
+
+        let conteudo = `
+
+            <section class="division">
+
+                <div class="division-title">
+                    ${titulo}
+                </div>
+
+        `;
+
+
+        lista.forEach((item, index) => {
+
+            conteudo += criarAtleta(
+                item,
+                p4p,
+                index
+            );
+
+        });
+
+
+        conteudo += `
+
+            </section>
+
+        `;
+
+
+        rankings.innerHTML = conteudo;
+    }
+
+
+    /* começa mostrando P4P */
+
+    mostrarRanking(
+        "p4p",
+        document.querySelector(".category-btn")
+    );
+
 </script>
 
 </body>
